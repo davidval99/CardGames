@@ -1,19 +1,3 @@
-// This file is part of the 'texasholdem' project, an open source
-// Texas Hold'em poker application written in Java.
-//
-// Copyright 2009 Oscar Stigter
-//
-// Licensed under the Apache License, Version 2.0 (the "License");
-// you may not use this file except in compliance with the License.
-// You may obtain a copy of the License at
-//
-//     http://www.apache.org/licenses/LICENSE-2.0
-//
-// Unless required by applicable law or agreed to in writing, software
-// distributed under the License is distributed on an "AS IS" BASIS,
-// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-// See the License for the specific language governing permissions and
-// limitations under the License.
 
 package com.company.gui;
 
@@ -25,48 +9,42 @@ import javax.swing.border.Border;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
 
-/**
- * Panel representing a player at the table.
- * 
- * @author Oscar Stigter
- */
+
 public class PlayerPanel extends JPanel {
     
-    /** The serial version UID. */
 
-    /** Filled dealer button image when player is dealer. */
     private static final Icon BUTTON_PRESENT_ICON =
-            ResourceManager.getIcon("/images/button_present.png");
+            ImageManager.getIcon("/images/button_present.png");
     
-    /** Empty dealer button image when player is not dealer. */
+
     private static final Icon BUTTON_ABSENT_ICON =
-            ResourceManager.getIcon("/images/button_absent.png");
+            ImageManager.getIcon("/images/button_absent.png");
     
     private static final Icon CARD_PLACEHOLDER_ICON =
-        ResourceManager.getIcon("/images/card_placeholder.png");
+        ImageManager.getIcon("/images/card_placeholder.png");
 
     private static final Icon CARD_BACK_ICON =
-            ResourceManager.getIcon("/images/card_back.png");
+            ImageManager.getIcon("/images/card_back.png");
     
-    /** The border. */
+
     private static final Border BORDER = new EmptyBorder(10, 10, 10, 10);
     
-    /** The label with the player's name. */
+
     private JLabel nameLabel;
     
-    /** The label with the player's amount of cash. */
+
     private JLabel cashLabel;
     
-    /** The label with the last action performed. */
+
     private JLabel actionLabel;
     
-    /** The label with the player's current bet. */
+
     private JLabel betLabel;
 
-    /** The label for the first hole card. */
+
     private JLabel card1Label;
 
-    /** The label for the second hole card. */
+
     private JLabel card2Label;
 
     private JLabel card3Label;
@@ -80,12 +58,10 @@ public class PlayerPanel extends JPanel {
     private JLabel card7Label;
 
 
-    /** The label for the dealer button image. */
+
     private JLabel dealerButton;
     
-    /**
-     * Constructor.
-     */
+
     public PlayerPanel() {
         setBorder(BORDER);
         setBackground(UIConstants.TABLE_COLOR);
@@ -222,12 +198,7 @@ public class PlayerPanel extends JPanel {
         setDealer(false);
     }
     
-    /**
-     * Updates the panel.
-     * 
-     * @param player
-     *            The player.
-     */
+
     public void update(Player player) {
         nameLabel.setText(player.getName());
         cashLabel.setText("$ " + player.getCash());
@@ -246,54 +217,49 @@ public class PlayerPanel extends JPanel {
         if (player.hasCards()) {
             Card[] cards = player.getCards();
             if (cards.length == 2) {
-                // Visible cards.
-                card1Label.setIcon(ResourceManager.getCardImage(cards[0]));
-                card2Label.setIcon(ResourceManager.getCardImage(cards[1]));
+
+                card1Label.setIcon(ImageManager.getCardImage(cards[0]));
+                card2Label.setIcon(ImageManager.getCardImage(cards[1]));
 
             }
             if (cards.length == 4) {
-                // Visible cards.
-                card1Label.setIcon(ResourceManager.getCardImage(cards[0]));
-                card2Label.setIcon(ResourceManager.getCardImage(cards[1]));
-                card3Label.setIcon(ResourceManager.getCardImage(cards[2]));
-                card4Label.setIcon(ResourceManager.getCardImage(cards[3]));
+
+                card1Label.setIcon(ImageManager.getCardImage(cards[0]));
+                card2Label.setIcon(ImageManager.getCardImage(cards[1]));
+                card3Label.setIcon(ImageManager.getCardImage(cards[2]));
+                card4Label.setIcon(ImageManager.getCardImage(cards[3]));
             }
             else if (cards.length == 5) {
-                // Visible cards.
-                card1Label.setIcon(ResourceManager.getCardImage(cards[0]));
-                card2Label.setIcon(ResourceManager.getCardImage(cards[1]));
-                card3Label.setIcon(ResourceManager.getCardImage(cards[2]));
-                card4Label.setIcon(ResourceManager.getCardImage(cards[3]));
-                card5Label.setIcon(ResourceManager.getCardImage(cards[4]));
+
+                card1Label.setIcon(ImageManager.getCardImage(cards[0]));
+                card2Label.setIcon(ImageManager.getCardImage(cards[1]));
+                card3Label.setIcon(ImageManager.getCardImage(cards[2]));
+                card4Label.setIcon(ImageManager.getCardImage(cards[3]));
+                card5Label.setIcon(ImageManager.getCardImage(cards[4]));
             }
             else if (cards.length == 6) {
-                // Visible cards.
-                card1Label.setIcon(ResourceManager.getCardImage(cards[0]));
-                card2Label.setIcon(ResourceManager.getCardImage(cards[1]));
-                card3Label.setIcon(ResourceManager.getCardImage(cards[2]));
-                card4Label.setIcon(ResourceManager.getCardImage(cards[3]));
-                card5Label.setIcon(ResourceManager.getCardImage(cards[4]));
-                card6Label.setIcon(ResourceManager.getCardImage(cards[5]));
+
+                card1Label.setIcon(ImageManager.getCardImage(cards[0]));
+                card2Label.setIcon(ImageManager.getCardImage(cards[1]));
+                card3Label.setIcon(ImageManager.getCardImage(cards[2]));
+                card4Label.setIcon(ImageManager.getCardImage(cards[3]));
+                card5Label.setIcon(ImageManager.getCardImage(cards[4]));
+                card6Label.setIcon(ImageManager.getCardImage(cards[5]));
             }
             if (cards.length == 7) {
-                // Visible cards.
-                card1Label.setIcon(ResourceManager.getCardImage(cards[0]));
-                card2Label.setIcon(ResourceManager.getCardImage(cards[1]));
-                card3Label.setIcon(ResourceManager.getCardImage(cards[2]));
-                card4Label.setIcon(ResourceManager.getCardImage(cards[3]));
-                card5Label.setIcon(ResourceManager.getCardImage(cards[4]));
-                card6Label.setIcon(ResourceManager.getCardImage(cards[5]));
-                card7Label.setIcon(ResourceManager.getCardImage(cards[6]));
+
+                card1Label.setIcon(ImageManager.getCardImage(cards[0]));
+                card2Label.setIcon(ImageManager.getCardImage(cards[1]));
+                card3Label.setIcon(ImageManager.getCardImage(cards[2]));
+                card4Label.setIcon(ImageManager.getCardImage(cards[3]));
+                card5Label.setIcon(ImageManager.getCardImage(cards[4]));
+                card6Label.setIcon(ImageManager.getCardImage(cards[5]));
+                card7Label.setIcon(ImageManager.getCardImage(cards[6]));
             }
 
 
-            //else {
-                // Hidden cards (face-down).
-                //card1Label.setIcon(CARD_BACK_ICON);
-               // card2Label.setIcon(CARD_BACK_ICON);
-        //    }
         } else {
-            // No cards.
+
             card1Label.setIcon(CARD_PLACEHOLDER_ICON);
             card2Label.setIcon(CARD_PLACEHOLDER_ICON);
             card3Label.setIcon(CARD_PLACEHOLDER_ICON);
@@ -305,12 +271,7 @@ public class PlayerPanel extends JPanel {
         }
     }
     
-    /**
-     * Sets whether the player is the dealer.
-     * 
-     * @param isDealer
-     *            True if the dealer, otherwise false.
-     */
+
     public void setDealer(boolean isDealer) {
         if (isDealer) {
             dealerButton.setIcon(BUTTON_PRESENT_ICON);
@@ -319,12 +280,7 @@ public class PlayerPanel extends JPanel {
         }
     }
     
-    /**
-     * Sets whether it's this player's turn to act.
-     * 
-     * @param inTurn
-     *            True if it's the player's turn, otherwise false.
-     */
+
     public void setInTurn(boolean inTurn) {
         if (inTurn) {
             nameLabel.setForeground(Color.YELLOW);
@@ -333,20 +289,10 @@ public class PlayerPanel extends JPanel {
         }
     }
     
-    /**
-     * Custom label for a player panel.
-     * 
-     * @author Oscar Stigter
-     */
+
     private static class MyLabel extends JLabel {
 
-        /** Serial version UID. */
-       // private static final long serialVersionUID = 3607645928062082095L;
-
-        /**
-         * Constructor.
-         */
-        public MyLabel() {
+      MyLabel() {
 
             setBorder(UIConstants.LABEL_BORDER);
             setForeground(UIConstants.TEXT_COLOR);
@@ -354,6 +300,6 @@ public class PlayerPanel extends JPanel {
             setText(" ");
         }
         
-    } // MyLabel
+    }
     
 }

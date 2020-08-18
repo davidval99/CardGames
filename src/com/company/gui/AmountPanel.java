@@ -18,45 +18,38 @@ import javax.swing.event.ChangeListener;
 
 
 
-/**
- * Panel for selecting the amount to bet or raise.
- *
- * @author Oscar Stigter
- */
 public class AmountPanel extends JPanel implements ChangeListener, ActionListener {
 
-    /** Serial version UID. */
+
     private static final long serialVersionUID = 171860711156799253L;
 
-    /** Number of increasing amounts to choose from (ticks on slider bar). */
+
     private static final int NO_OF_TICKS = 10;
 
-    /** Slider with the amount to bet or raise. */
+
     private final JSlider amountSlider;
 
-    /** Label with selected amount. */
+
     private final JLabel amountLabel;
 
-    /** Bet/Raise button. */
+
     private final JButton betRaiseButton;
 
-    /** Cancel button. */
+
     private final JButton cancelButton;
 
-    /** Incremental bet amounts mapped to slider's index. */
+
     private final HashMap<Integer, Integer> sliderAmounts;
 
-    /** Monitor while waiting for user input. */
+
     private final Object monitor = new Object();
 
     private Action defaultAction;
 
-    /** The selected action. */
+
     private Action selectedAction;
 
-    /**
-     * Constructor.
-     */
+
     public AmountPanel() {
         setBackground(UIConstants.TABLE_COLOR);
 
@@ -123,24 +116,13 @@ public class AmountPanel extends JPanel implements ChangeListener, ActionListene
         add(cancelButton, gbc);
     }
 
-    /**
-     * Resets and shows the panel.
-     *
-     * @param defaultAction
-     *            The default action.
-     * @param minBet
-     *            The minimum bet.
-     * @param maxBet
-     *            The maximum bet.
-     *
-     * @return The selected action.
-     */
+
     public Action show(Action defaultAction, int minBet, int maxBet) {
         this.defaultAction = defaultAction;
         betRaiseButton.setText(defaultAction.getName());
         selectedAction = null;
 
-        // Determine incremental amounts on slider bar.
+
         sliderAmounts.clear();
         int noOfValues = 0;
         int value = minBet;
@@ -154,7 +136,7 @@ public class AmountPanel extends JPanel implements ChangeListener, ActionListene
         amountSlider.setMaximum(noOfValues);
         amountSlider.setValue(0);
 
-        // Wait for the user to select an amount or cancel.
+
         synchronized (monitor) {
             try {
                 monitor.wait();
@@ -166,17 +148,13 @@ public class AmountPanel extends JPanel implements ChangeListener, ActionListene
         return selectedAction;
     }
 
-    /**
-     * Returns the selected amount.
-     *
-     * @return The selected amount.
-     */
+
     public int getAmount() {
         int index = amountSlider.getValue();
         return sliderAmounts.get(index);
     }
 
-    /** {@inheritDoc} */
+
     @Override
     public void stateChanged(ChangeEvent e) {
         int index = amountSlider.getValue();
@@ -184,7 +162,7 @@ public class AmountPanel extends JPanel implements ChangeListener, ActionListene
         amountLabel.setText(String.format("$ %d", amount));
     }
 
-    /** {@inheritDoc} */
+
     @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == betRaiseButton) {

@@ -26,9 +26,7 @@ public class Deck {
         }
     }
     
-    /**
-     * Shuffles the deck.
-     */
+
 
     public void shuffle() {
         for (int oldIndex = 0; oldIndex < 52; oldIndex++) {
@@ -45,11 +43,7 @@ public class Deck {
         nextCardIndex = 0;
     }
     
-    /**
-     * Deals a single card.
-     *
-     * @return  the card dealt
-     */
+
     public Card deal() {
 
         return cards[nextCardIndex++];
@@ -85,7 +79,7 @@ public class Deck {
         return card;
     }
     
-    /** {@inheritDoc} */
+
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();

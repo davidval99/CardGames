@@ -16,7 +16,7 @@ import java.util.*;
 public class Main extends JFrame implements Client {
     
 
-    //ESTA ES LA COPIA
+
 
 
     private static final int STARTING_CASH = 1000;
@@ -50,9 +50,7 @@ public class Main extends JFrame implements Client {
 
     private String actorName;
 
-    /**
-     * Constructor.
-     */
+
     public Main() {
 
 
@@ -83,7 +81,7 @@ public class Main extends JFrame implements Client {
 
 
         Scanner in = new Scanner(System.in);
-        // Display the menu
+
         System.out.println("1\t Texas Hold'em");
         System.out.println("2\t Five Cards");
         System.out.println("3\t Omaha");
@@ -126,12 +124,12 @@ public class Main extends JFrame implements Client {
 
             switch (i++) {
                 case 0:
-                    System.out.println("Hola1");
+
                     addComponent(panel, 1, 0, 1, 1);
                     break;
                 case 1:
 
-                    System.out.println("Hola2");
+
                     addComponent(panel, 2, 1, 1, 1);
                     break;
 

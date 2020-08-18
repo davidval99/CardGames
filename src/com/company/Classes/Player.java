@@ -1,12 +1,7 @@
-
-
 package com.company.Classes;
 
 import com.company.actions.Action;
-
-
 import java.util.List;
-
 
 public class Player {
 
@@ -67,14 +62,14 @@ public class Player {
 
             handPoker.addCards(cards);
             hasCards = true;
-            System.out.format("[CHEAT] %s's cards:\t%s\n", name, handPoker);
+            System.out.format("%s's cards:\t%s\n", name, handPoker);
         }
     }
     public void addCards(List<Card> cards) {
 
         handPoker.addCards(cards);
         hasCards = true;
-        System.out.format("[CHEAT] %s's cards:\t%s\n", name, handPoker);
+        System.out.format("%s's cards:\t%s\n", name, handPoker);
     }
 
 

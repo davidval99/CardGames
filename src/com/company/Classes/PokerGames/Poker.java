@@ -348,13 +348,7 @@ public class Poker {
 
 
     public void doShowdown() {
-//        System.out.println("\n[DEBUG] Pots:");
-//        for (Pot pot : pots) {
-//            System.out.format("  %s\n", pot);
-//        }
-//        System.out.format("[DEBUG]  Total: %d\n", getTotalPot());
 
-        // Determine show order; start with all-in players...
         List<Player> showingPlayers = new ArrayList<Player>();
         for (Pot pot : pots) {
             for (Player contributor : pot.getContributors()) {
@@ -363,13 +357,13 @@ public class Poker {
                 }
             }
         }
-        // ...then last player to bet or raise (aggressor)...
+
         if (lastBettor != null) {
             if (!showingPlayers.contains(lastBettor)) {
                 showingPlayers.add(lastBettor);
             }
         }
-        //...and finally the remaining players, starting left of the button.
+
         int pos = (dealerPosition + 1) % activePlayers.size();
         while (showingPlayers.size() < activePlayers.size()) {
             Player player = activePlayers.get(pos);
@@ -379,7 +373,7 @@ public class Poker {
             pos = (pos + 1) % activePlayers.size();
         }
 
-        // Players automatically show or fold in order.
+
         boolean firstToShow = true;
         int bestHandValue = -1;
         for (Player playerToShow : showingPlayers) {
@@ -389,16 +383,16 @@ public class Poker {
             boolean doShow = ALWAYS_CALL_SHOWDOWN;
             if (!doShow) {
                 if (playerToShow.isAllIn()) {
-                    // All-in players must always show.
+
                     doShow = true;
                     firstToShow = false;
                 } else if (firstToShow) {
-                    // First player must always show.
+
                     doShow = true;
                     bestHandValue = handValue.getValue();
                     firstToShow = false;
                 } else {
-                    // Remaining players only show when having a chance to win.
+
                     if (handValue.getValue() >= bestHandValue) {
                         doShow = true;
                         bestHandValue = handValue.getValue();
@@ -406,20 +400,20 @@ public class Poker {
                 }
             }
             if (doShow) {
-                // Show hand.
+
                 for (Player player : players) {
                     player.getClient().playerUpdated(playerToShow);
                 }
                 notifyMessage("%s has %s.", playerToShow, handValue.getDescription());
             } else {
-                // Fold.
+
                 playerToShow.setCards(null);
                 activePlayers.remove(playerToShow);
                 for (Player player : players) {
                     if (player.equals(playerToShow)) {
                         player.getClient().playerUpdated(playerToShow);
                     } else {
-                        // Hide secret information to other players.
+
                         player.getClient().playerUpdated(playerToShow.publicClone());
                     }
                 }
@@ -427,15 +421,15 @@ public class Poker {
             }
         }
 
-        // Sort players by hand value (highest to lowest).
+
         Map<HandValue, List<Player>> rankedPlayers = new TreeMap<HandValue, List<Player>>();
         for (Player player : activePlayers) {
-            // Create a hand with the community cards and the player's hole cards.
+
             HandPoker handPoker = new HandPoker(board);
             handPoker.addCards(player.getCards());
-            // Store the player together with other players with the same hand value.
+
             HandValue handValue = new HandValue(handPoker);
-//            System.out.format("[DEBUG] %s: %s\n", player, handValue);
+
             List<Player> playerList = rankedPlayers.get(handValue);
             if (playerList == null) {
                 playerList = new ArrayList<Player>();
@@ -444,13 +438,13 @@ public class Poker {
             rankedPlayers.put(handValue, playerList);
         }
 
-        // Per rank (single or multiple winners), calculate pot distribution.
+
         int totalPot = getTotalPot();
         Map<Player, Integer> potDivision = new HashMap<Player, Integer>();
         for (HandValue handValue : rankedPlayers.keySet()) {
             List<Player> winners = rankedPlayers.get(handValue);
             for (Pot pot : pots) {
-                // Determine how many winners share this pot.
+
                 int noOfWinnersInPot = 0;
                 for (Player winner : winners) {
                     if (pot.hasContributer(winner)) {
@@ -458,7 +452,7 @@ public class Poker {
                     }
                 }
                 if (noOfWinnersInPot > 0) {
-                    // Divide pot over winners.
+
                     int potShare = pot.getValue() / noOfWinnersInPot;
                     for (Player winner : winners) {
                         if (pot.hasContributer(winner)) {
@@ -471,10 +465,10 @@ public class Poker {
 
                         }
                     }
-                    // Determine if we have any odd chips left in the pot.
+
                     int oddChips = pot.getValue() % noOfWinnersInPot;
                     if (oddChips > 0) {
-                        // Divide odd chips over winners, starting left of the dealer.
+
                         pos = dealerPosition;
                         while (oddChips > 0) {
                             pos = (pos + 1) % activePlayers.size();
@@ -482,7 +476,7 @@ public class Poker {
                             Integer oldShare = potDivision.get(winner);
                             if (oldShare != null) {
                                 potDivision.put(winner, oldShare + 1);
-//                                System.out.format("[DEBUG] %s receives an odd chip from the pot.\n", winner);
+//
                                 oddChips--;
                             }
                         }
@@ -493,7 +487,7 @@ public class Poker {
             }
         }
 
-        // Divide winnings.
+
         StringBuilder winnerText = new StringBuilder();
         int totalWon = 0;
         for (Player winner : potDivision.keySet()) {
@@ -509,7 +503,7 @@ public class Poker {
         winnerText.append('.');
         notifyMessage(winnerText.toString());
 
-        // Sanity check.
+
         if (totalWon != totalPot) {
             throw new IllegalStateException("Incorrect pot division!");
         }

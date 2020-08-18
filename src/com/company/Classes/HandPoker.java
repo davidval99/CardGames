@@ -1,13 +1,13 @@
 
 package com.company.Classes;
 
-import com.company.Interfaces.Mano;
+
 
 import java.util.ArrayList;
 import java.util.Collection;
 
 
-public class HandPoker implements Mano {
+public class HandPoker{
 
 
     private static final int MAX_NO_OF_CARDS = 9;
