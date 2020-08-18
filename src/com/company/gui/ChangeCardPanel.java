@@ -116,7 +116,7 @@ public class ChangeCardPanel extends JFrame implements  ActionListener {
 
     public void getSelectedCards(){
 
-        System.out.println("[DEBUG], me llamaron");
+
 
         ButtonGroup[] buttonGroups = new ButtonGroup[5];
         buttonGroups[0] = btng1;
@@ -124,7 +124,6 @@ public class ChangeCardPanel extends JFrame implements  ActionListener {
         buttonGroups[2] = btng3;
         buttonGroups[3] = btng4;
         buttonGroups[4] = btng5;
-
 
         Arrays.fill(boolArray, Boolean.FALSE);
         for (int i = 0; i< 5;i++){

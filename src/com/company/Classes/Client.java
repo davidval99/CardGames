@@ -41,17 +41,7 @@ public interface Client {
      */
     void messageReceived(String message);
 
-    /**
-     * Handles the player joining a table.
-     * 
-     * @param type
-     *            The table type (betting structure).
-     * @param bigBlind
-     *            The table's big blind.
-     * @param players
-     *            The players at the table (including this player).
-     */
-    void joinedTable(String type, int bigBlind, List<Player> players);
+    void joinedTable(int bigBlind, List<Player> players);
     
     /**
      * Handles the start of a new hand.

@@ -53,7 +53,7 @@ public class Omaha extends Holdem {
 
     public void run() {
         for (Player player : players) {
-            player.getClient().joinedTable(tableType, bigBlind, players);
+            player.getClient().joinedTable(bigBlind, players);
         }
         dealerPosition = -1;
         actorPosition = -1;

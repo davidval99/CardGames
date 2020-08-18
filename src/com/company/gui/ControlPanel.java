@@ -135,6 +135,7 @@ public class ControlPanel extends JPanel implements ActionListener {
                             add(betButton);
                         }
                         if (allowedActions.contains(Action.RAISE)) {
+
                             add(raiseButton);
                         }
                         if (allowedActions.contains(Action.FOLD)) {
@@ -160,11 +161,13 @@ public class ControlPanel extends JPanel implements ActionListener {
             
             // In case of a bet or raise, show panel to select amount.
             if ((selectedAction == Action.BET || selectedAction == Action.RAISE)) {
+
                 SwingUtilities.invokeLater(new Runnable() {
                     @Override
                     public void run() {
                         removeAll();
                         add(amountPanel);
+
                         repaint();
                     }
                 });
@@ -173,6 +176,7 @@ public class ControlPanel extends JPanel implements ActionListener {
                     selectedAction = new BetAction(amountPanel.getAmount());
                 } else if (selectedAction == Action.RAISE) {
                     selectedAction = new RaiseAction(amountPanel.getAmount());
+
                 } else {
                     // User cancelled.
                     selectedAction = null;
@@ -199,7 +203,10 @@ public class ControlPanel extends JPanel implements ActionListener {
         } else if (source == betButton) {
             selectedAction = Action.BET;
         } else if (source == raiseButton) {
+            System.out.println("[DEBUG] - Entré");
             selectedAction = Action.RAISE;
+
+
         } else if(source == Action.CHANGE) {
             selectedAction = Action.CHANGE;
         }

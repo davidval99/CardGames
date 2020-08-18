@@ -1,39 +1,30 @@
-// This file is part of the 'texasholdem' project, an open source
-// Texas Hold'em poker application written in Java.
-//
-// Copyright 2009 Oscar Stigter
-//
-// Licensed under the Apache License, Version 2.0 (the "License");
-// you may not use this file except in compliance with the License.
-// You may obtain a copy of the License at
-//
-//     http://www.apache.org/licenses/LICENSE-2.0
-//
-// Unless required by applicable law or agreed to in writing, software
-// distributed under the License is distributed on an "AS IS" BASIS,
-// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-// See the License for the specific language governing permissions and
-// limitations under the License.
-
 package com.company.gui;
 
 import com.company.actions.Action;
 
-import javax.swing.*;
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
-import java.awt.*;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.HashMap;
 
+import javax.swing.JButton;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JSlider;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
+
+
+
 /**
  * Panel for selecting the amount to bet or raise.
- * 
+ *
  * @author Oscar Stigter
  */
 public class AmountPanel extends JPanel implements ChangeListener, ActionListener {
-    
+
     /** Serial version UID. */
     private static final long serialVersionUID = 171860711156799253L;
 
@@ -45,35 +36,35 @@ public class AmountPanel extends JPanel implements ChangeListener, ActionListene
 
     /** Label with selected amount. */
     private final JLabel amountLabel;
-    
+
     /** Bet/Raise button. */
     private final JButton betRaiseButton;
-    
+
     /** Cancel button. */
     private final JButton cancelButton;
-    
+
     /** Incremental bet amounts mapped to slider's index. */
     private final HashMap<Integer, Integer> sliderAmounts;
-    
+
     /** Monitor while waiting for user input. */
     private final Object monitor = new Object();
-    
+
     private Action defaultAction;
-    
+
     /** The selected action. */
     private Action selectedAction;
-    
+
     /**
      * Constructor.
      */
     public AmountPanel() {
         setBackground(UIConstants.TABLE_COLOR);
-        
+
         sliderAmounts = new HashMap<Integer, Integer>();
-        
+
         setLayout(new GridBagLayout());
         GridBagConstraints gbc = new GridBagConstraints();
-        
+
         amountSlider = new JSlider();
         amountSlider.setBackground(UIConstants.TABLE_COLOR);
         amountSlider.setMajorTickSpacing(1);
@@ -104,7 +95,7 @@ public class AmountPanel extends JPanel implements ChangeListener, ActionListene
         gbc.fill = GridBagConstraints.NONE;
         gbc.insets = new Insets(5, 0, 5, 0);
         add(amountLabel, gbc);
-        
+
         betRaiseButton = new JButton("Bet");
         betRaiseButton.addActionListener(this);
         gbc.gridx = 0;
@@ -117,7 +108,7 @@ public class AmountPanel extends JPanel implements ChangeListener, ActionListene
         gbc.fill = GridBagConstraints.NONE;
         gbc.insets = new Insets(0, 0, 0, 0);
         add(betRaiseButton, gbc);
-        
+
         cancelButton = new JButton("Cancel");
         cancelButton.addActionListener(this);
         gbc.gridx = 1;
@@ -131,24 +122,24 @@ public class AmountPanel extends JPanel implements ChangeListener, ActionListene
         gbc.insets = new Insets(0, 0, 0, 0);
         add(cancelButton, gbc);
     }
-    
+
     /**
      * Resets and shows the panel.
-     * 
+     *
      * @param defaultAction
      *            The default action.
      * @param minBet
      *            The minimum bet.
      * @param maxBet
      *            The maximum bet.
-     * 
+     *
      * @return The selected action.
      */
     public Action show(Action defaultAction, int minBet, int maxBet) {
         this.defaultAction = defaultAction;
         betRaiseButton.setText(defaultAction.getName());
         selectedAction = null;
-        
+
         // Determine incremental amounts on slider bar.
         sliderAmounts.clear();
         int noOfValues = 0;
@@ -162,7 +153,7 @@ public class AmountPanel extends JPanel implements ChangeListener, ActionListene
         amountSlider.setMinimum(0);
         amountSlider.setMaximum(noOfValues);
         amountSlider.setValue(0);
-        
+
         // Wait for the user to select an amount or cancel.
         synchronized (monitor) {
             try {
@@ -171,13 +162,13 @@ public class AmountPanel extends JPanel implements ChangeListener, ActionListene
                 // Ignore.
             }
         }
-        
+
         return selectedAction;
     }
-    
+
     /**
      * Returns the selected amount.
-     * 
+     *
      * @return The selected amount.
      */
     public int getAmount() {
@@ -201,10 +192,10 @@ public class AmountPanel extends JPanel implements ChangeListener, ActionListene
         } else if (e.getSource() == cancelButton) {
             selectedAction = null;
         }
-        
+
         synchronized (monitor) {
             monitor.notifyAll();
         }
     }
-    
+
 }
