@@ -10,55 +10,55 @@ import java.util.*;
 
 public class Poker {
 
-    /** In fixed-limit games, the maximum number of raises per betting round. */
+
     public static final int MAX_RAISES = 3;
 
-    /** Whether players will always call the showdown, or fold when no chance. */
+
     public static final boolean ALWAYS_CALL_SHOWDOWN = false;
 
-    /** Table type (poker variant). */
+
     public final String tableType;
 
-    /** The size of the big blind. */
+
     public final int bigBlind;
 
-    /** The players at the table. */
+
     public final List<Player> players;
 
-    /** The active players in the current hand. */
+
     public final List<Player> activePlayers;
 
-    /** The deck of cards. */
+
     public final Deck deck;
 
-    /** The community cards on the board. */
+
     public final List<Card> board;
 
-    /** The current dealer position. */
+
     public int dealerPosition;
 
-    /** The current dealer. */
+
     public Player dealer;
 
-    /** The position of the acting player. */
+
     public int actorPosition;
 
-    /** The acting player. */
+
     public  Player actor;
 
-    /** The minimum bet in the current hand. */
+
     public int minBet;
 
-    /** The current bet in the current hand. */
+
     public int bet;
 
-    /** All pots in the current hand (main pot and any side pots). */
+
     public final List<Pot> pots;
 
-    /** The player who bet or raised last (aggressor). */
+
     public Player lastBettor;
 
-    /** Number of raises in the current betting round. */
+
     public int raises;
 
 
@@ -89,11 +89,6 @@ public class Poker {
         players.add(player);
     }
 
-
-
-    /**
-     * Resets the game for a new hand.
-     */
 
     public void resetHand() {
         // Clear the board.
@@ -134,9 +129,7 @@ public class Poker {
         notifyMessage("New hand, %s is the dealer.", dealer);
     }
 
-    /**
-     * Rotates the position of the player in turn (the actor).
-     */
+
     public void rotateActor() {
         actorPosition = (actorPosition + 1) % activePlayers.size();
         actor = activePlayers.get(actorPosition);
@@ -145,9 +138,7 @@ public class Poker {
         }
     }
 
-    /**
-     * Posts the small blind.
-     */
+
     public void postSmallBlind() {
         final int smallBlind = bigBlind / 2;
         actor.postSmallBlind(smallBlind);
@@ -156,9 +147,7 @@ public class Poker {
         notifyPlayerActed();
     }
 
-    /**
-     * Posts the big blind.
-     */
+
     public void postBigBlind() {
         actor.postBigBlind(bigBlind);
         contributePot(bigBlind);
@@ -179,20 +168,20 @@ public class Poker {
 
 
     public void doBettingRound() {
-        // Determine the number of active players.
+
         int playersToAct = activePlayers.size();
-        // Determine the initial player and bet size.
+
         if (board.size() == 0) {
-            // Pre-Flop; player left of big blind starts, bet is the big blind.
+
             bet = bigBlind;
         } else {
-            // Otherwise, player left of dealer starts, no initial bet.
+
             actorPosition = dealerPosition;
             bet = 0;
         }
 
         if (playersToAct == 2) {
-            // Heads Up mode; player who is not the dealer starts.
+
             actorPosition = dealerPosition;
         }
 
@@ -204,14 +193,14 @@ public class Poker {
             rotateActor();
             Action action = null;
             if (actor.isAllIn()) {
-                // Player is all-in, so must check.
+
                 action = Action.CHECK;
                 playersToAct--;
             } else {
-                // Otherwise allow client to act.
+
                 Set<Action> allowedActions = getAllowedActions(actor);
                 action = actor.getClient().act(minBet, bet, allowedActions);
-                // Verify chosen action to guard against broken clients (accidental or on purpose).
+
                 if (!allowedActions.contains(action)) {
                     if (action instanceof BetAction && !allowedActions.contains(Action.BET)) {
                         throw new IllegalStateException(String.format("Player '%s' acted with illegal Bet action", actor));
@@ -221,7 +210,7 @@ public class Poker {
                 }
                 playersToAct--;
                 if (action == Action.CHECK) {
-                    // Do nothing.
+
                 } else if (action == Action.CALL) {
                     int betIncrement = bet - actor.getBet();
                     if (betIncrement > actor.getCash()) {
@@ -259,10 +248,10 @@ public class Poker {
                     lastBettor = actor;
                     raises++;
                     if (tableType == "NO_LIMIT" || raises < MAX_RAISES || activePlayers.size() == 2) {
-                        // All players get another turn.
+
                         playersToAct = activePlayers.size();
                     } else {
-                        // Max. number of raises reached; other players get one more turn.
+
                         playersToAct = activePlayers.size() - 1;
                     }
                 } else if (action == Action.FOLD) {
@@ -270,7 +259,7 @@ public class Poker {
                     activePlayers.remove(actor);
                     actorPosition--;
                     if (activePlayers.size() == 1) {
-                        // Only one player left, so he wins the entire pot.
+
                         notifyBoardUpdated();
                         notifyPlayerActed();
                         Player winner = activePlayers.get(0);
@@ -281,7 +270,7 @@ public class Poker {
                         playersToAct = 0;
                     }
                 } else {
-                    // Programming error, should never happen.
+
                     throw new IllegalStateException("Invalid action: " + action);
                 }
             }
@@ -292,7 +281,7 @@ public class Poker {
             }
         }
 
-        // Reset player's bets.
+
         for (Player player : activePlayers) {
             player.resetBet();
         }
@@ -300,14 +289,6 @@ public class Poker {
         notifyPlayersUpdated(false);
     }
 
-    /**
-     * Returns the allowed actions of a specific player.
-     *
-     * @param player
-     *            The player.
-     *
-     * @return The allowed actions.
-     */
 
     public Set<Action> getAllowedActions(Player player) {
         Set<Action> actions = new HashSet<Action>();
@@ -340,12 +321,6 @@ public class Poker {
     }
 
 
-    /**
-     * Contributes to the pot.
-     *
-     * @param amount
-     *            The amount to contribute.
-     */
     public void contributePot(int amount) {
         for (Pot pot : pots) {
             if (!pot.hasContributer(actor)) {
@@ -371,9 +346,6 @@ public class Poker {
         }
     }
 
-    /**
-     * Performs the showdown.
-     */
 
     public void doShowdown() {
 //        System.out.println("\n[DEBUG] Pots:");
@@ -543,14 +515,6 @@ public class Poker {
         }
     }
 
-    /**
-     * Notifies listeners with a custom game message.
-     *
-     * @param message
-     *            The formatted message.
-     * @param args
-     *            Any arguments.
-     */
 
     public void notifyMessage(String message, Object... args) {
         message = String.format(message, args);
@@ -559,9 +523,6 @@ public class Poker {
         }
     }
 
-    /**
-     * Notifies clients that the board has been updated.
-     */
 
     public void notifyBoardUpdated() {
         int pot = getTotalPot();
@@ -570,11 +531,6 @@ public class Poker {
         }
     }
 
-    /**
-     * Returns the total pot size.
-     *
-     * @return The total pot size.
-     */
 
     public int getTotalPot() {
         int totalPot = 0;
@@ -584,21 +540,12 @@ public class Poker {
         return totalPot;
     }
 
-    /**
-     * Notifies clients that one or more players have been updated. <br />
-     * <br />
-     *
-     * A player's secret information is only sent its own client; other clients
-     * see only a player's public information.
-     *
-     * @param showdown
-     *            Whether we are at the showdown phase.
-     */
+
     public void notifyPlayersUpdated(boolean showdown) {
         for (Player playerToNotify : players) {
             for (Player player : players) {
                 if (!showdown && !player.equals(playerToNotify)) {
-                    // Hide secret information to other players.
+
                     player = player.publicClone();
                 }
                 playerToNotify.getClient().playerUpdated(player);

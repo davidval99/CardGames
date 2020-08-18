@@ -12,19 +12,11 @@ public class HandPoker implements Mano {
 
     private static final int MAX_NO_OF_CARDS = 9;
 
-    /**
-     * The cards in this hand.
-     */
+
     private Card[] cards = new Card[MAX_NO_OF_CARDS];
 
-    /**
-     * The current number of cards in this hand.
-     */
     private int noOfCards = 0;
 
-    /**
-     * Constructor for an empty hand.
-     */
     public HandPoker() {
 
     }
@@ -45,24 +37,12 @@ public class HandPoker implements Mano {
     }
 
 
-    /**
-     * Returns the number of cards.
-     *
-     * @return The number of cards.
-     */
+
     public int size() {
         return noOfCards;
     }
 
-    /**
-     * Adds a single card.
-     * <p>
-     * The card is inserted at such a position that the hand remains sorted
-     * (highest ranking cards first).
-     *
-     * @param card The card to add.
-     * @throws IllegalArgumentException If the card is null.
-     */
+
 
     public void deleteCard(int index) {
         cards[index] = null;
@@ -81,7 +61,7 @@ public class HandPoker implements Mano {
             }
         }
         if (insertIndex == -1) {
-            // Could not insert anywhere, so append at the end.
+
             cards[noOfCards++] = card;
         } else {
             for (int i = noOfCards; i > insertIndex; i--) {
@@ -92,14 +72,7 @@ public class HandPoker implements Mano {
         }
     }
 
-    /**
-     * Adds multiple cards.
-     * <p>
-     * The cards are inserted at such a position that the hand remains sorted
-     * (highest ranking cards first).
-     *
-     * @param cards The cards to add.
-     */
+
     public void addCards(Card[] cards) {
         if (cards == null) {
             throw new IllegalArgumentException("Null array");
@@ -112,14 +85,7 @@ public class HandPoker implements Mano {
         }
     }
 
-    /**
-     * Adds multiple cards.
-     * <p>
-     * The cards are inserted at such a position that the hand remains sorted
-     * (highest ranking cards first).
-     *
-     * @param cards The cards to add.
-     */
+
     public void addCards(Collection<Card> cards) {
         if (cards == null) {
             throw new IllegalArgumentException("Null collection");
@@ -132,27 +98,19 @@ public class HandPoker implements Mano {
         }
     }
 
-    /**
-     * Returns the cards.
-     *
-     * @return The cards.
-     */
+
     public Card[] getCards() {
         Card[] dest = new Card[noOfCards];
         System.arraycopy(cards, 0, dest, 0, noOfCards);
         return dest;
     }
 
-    /**
-     * Removes all cards.
-     */
+
     public void removeAllCards() {
         noOfCards = 0;
     }
 
-    /**
-     * {@inheritDoc}
-     */
+
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
@@ -180,16 +138,6 @@ public class HandPoker implements Mano {
             }
 
         }
-
-        /*
-        while (y < 5) {
-            if (!cards2copy[y]) {
-                newCards.add(this.cards[x]);
-                x++;
-            }
-            y++;
-        }*/
-
 
         HandPoker newHand = new HandPoker();
         for (int i = 0; i < newCards.size(); i++) {

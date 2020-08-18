@@ -32,7 +32,7 @@ public class Holdem extends Poker {
             }
         }
 
-        // Game over.
+
         board.clear();
         pots.clear();
         bet = 0;
@@ -47,40 +47,40 @@ public class Holdem extends Poker {
     public void playHand() {
         resetHand();
 
-        // Small blind.
+
         if (activePlayers.size() > 2) {
             rotateActor();
         }
         postSmallBlind();
 
-        // Big blind.
+
         rotateActor();
         postBigBlind();
 
-        // Pre-Flop.
+
         dealHoleCards(2);
         doBettingRound();
 
-        // Flop.
+
         if (activePlayers.size() > 1) {
             bet = 0;
             dealCommunityCards("Flop", 3);
             doBettingRound();
 
-            // Turn.
+
             if (activePlayers.size() > 1) {
                 bet = 0;
                 dealCommunityCards("Turn", 1);
                 minBet = 2 * bigBlind;
                 doBettingRound();
 
-                // River.
+
                 if (activePlayers.size() > 1) {
                     bet = 0;
                     dealCommunityCards("River", 1);
                     doBettingRound();
 
-                    // Showdown.
+
                     if (activePlayers.size() > 1) {
                         bet = 0;
                         doShowdown();

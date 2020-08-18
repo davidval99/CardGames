@@ -33,11 +33,7 @@ import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.Vector;
 
-/**
- * Panel for selecting the amount to bet or raise.
- *
- * @author Oscar Stigter
- */
+
 public class ChangeCardPanel extends JFrame implements  ActionListener {
 
 
@@ -54,12 +50,12 @@ public class ChangeCardPanel extends JFrame implements  ActionListener {
 
     public boolean turnFinish =false;
 
-    /** Monitor while waiting for user input. */
+
     private final Object monitor = new Object();
 
     private Action defaultAction;
 
-    /** The selected action. */
+
     private Action selectedAction;
 
     JFrame f=new JFrame();
@@ -67,9 +63,7 @@ public class ChangeCardPanel extends JFrame implements  ActionListener {
     public int NumberOfChangeCards;
 
 
-    /**
-     * Constructor.
-     */
+
     public ChangeCardPanel(String playerName) {
 
 
@@ -119,24 +113,6 @@ public class ChangeCardPanel extends JFrame implements  ActionListener {
 
     }
 
-    /**
-     * Resets and shows the panel.
-     *
-     * @param defaultAction
-     *            The default action.
-     * @param minBet
-     *            The minimum bet.
-     * @param maxBet
-     *            The maximum bet.
-     *
-     * @return The selected action.
-     */
-
-    /**
-     * Returns the selected amount.
-     *
-     * @return The selected amount.
-     */
 
     public void getSelectedCards(){
 
@@ -175,7 +151,6 @@ public class ChangeCardPanel extends JFrame implements  ActionListener {
     }
 
 
-    /** {@inheritDoc} */
     @Override
     public void actionPerformed(ActionEvent e){
         if (e.getSource() == b) {
